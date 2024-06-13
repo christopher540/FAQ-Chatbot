@@ -1,25 +1,24 @@
 import streamlit as st
 import tempfile
 import os
-import sqlite3
-    
-conn=sqlite3.connect('User_Files.db',timeout=10)
-cursor=conn.cursor()
+import mysql.connector
+
+mydb=mysql.connector.connect(
+    host='localhost',
+    user='root',
+    passwd='lol123',
+    database='user_files'
+)
+
+cursor=mydb.cursor()
 
 def addInfo(a,b,c,d):
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS REGISTRATIONS (
-        SURNAME TEXT(50),
-        GIVEN_NAME TEXT(50),
-        CV_PATH TEXT(50),
-        FNQ_PATH TEXT(50)
-        )
-        """
-    )
-    cursor.execute("INSERT INTO REGISTRATION VALUES (?,?,?,?)",(a,b,c,d))
-    conn.commit()
-    conn.close()
+
+    cursor.execute("INSERT INTO USER VALUES (%s,%s,%s,%s)",(a,b,c,d))
+    
+    
+    
+    mydb.commit()
     st.success("User has been added to the database")
 
 st.title('Smart FAQ Setup')
@@ -46,6 +45,17 @@ with st.form (key="Registration Form"):
         st.success('Your registration is successful')
         addInfo(Surname,Given_name,CV_path,FAQ_list)
 
+cursor.execute(
+    """
+    SELECT *
+    FROM USER
+    """
+)
+
+for i in cursor:
+    print(i)
+
+mydb.close()
 
 
 
