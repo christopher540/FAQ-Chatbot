@@ -21,6 +21,14 @@ def addInfo(a,b,c,d):
     mydb.commit()
     st.success("User has been added to the database")
 
+def save_file(file):
+    folder="C:/Users/chris/OneDrive/Documents/Python Projects/FAQ BOT/store"
+    with open(os.path.join(folder,file.name),'wb') as f:
+        f.write(file.getbuffer())
+    
+    return os.path.join(folder,file.name)
+
+
 st.title('Smart FAQ Setup')
 st.subheader('Please Upload your CV and Excel File (List of QnA)', divider='gray')
 
@@ -31,8 +39,7 @@ with st.form (key="Registration Form"):
     uploaded_files = st.file_uploader("Drag and Drop your files here", accept_multiple_files=True)
 
     for uploaded_file in uploaded_files:
-        temp_dir = tempfile.mkdtemp()
-        path = os.path.join(temp_dir, uploaded_file.name)
+        path=save_file(uploaded_file)
         file_extension = os.path.splitext(path)[1]
         
         if str(file_extension)=='.pdf':
@@ -44,16 +51,6 @@ with st.form (key="Registration Form"):
     if submit==True:
         st.success('Your registration is successful')
         addInfo(Surname,Given_name,CV_path,FAQ_list)
-
-cursor.execute(
-    """
-    SELECT *
-    FROM USER
-    """
-)
-
-for i in cursor:
-    print(i)
 
 mydb.close()
 
