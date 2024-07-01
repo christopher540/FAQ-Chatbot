@@ -4,6 +4,7 @@ from FAQLIST import generate_intro,generate_answer_faq
 import pandas as pd
 import time
 import mysql.connector
+import os
 
 mydb = mysql.connector.connect(
     host='localhost',

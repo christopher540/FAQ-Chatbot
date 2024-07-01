@@ -3,6 +3,8 @@ import gradio as gr
 import os
 import mysql.connector
 import subprocess
+import time
+
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -12,6 +14,8 @@ mydb = mysql.connector.connect(
     )
 
 cursor = mydb.cursor()
+
+st.image("Logo.png")
 
 def check_valid(SURNAME, GIVEN_NAME):
         query = """
@@ -48,18 +52,39 @@ def find_person():
                 paths=cv_path+','+faq_path
                 with open("paths.txt", "w") as file1:
                     # Writing data to a file
-                    file1.write(paths)  
-                subprocess.Popen(['python','gradio_ui.py'])              
+                    file1.write(paths)
+                
+                with open('count.txt','r+') as f:
+                    a = f.read()
+                    if a:
+                        a = int(a)
+                    else:
+                        a = -1
+                    a += 1
+                    a = str(a)
+                    f.seek(0)
+                    f.write(a)
+                    f.truncate()
+                    
+                 
+                
+                subprocess.Popen(['python','gradio_ui.py'])        
             else:
                 st.error('Person is not registered', icon="🚨")
+                time.sleep(2)
                 st.rerun()
     
     
 def chatbot():
+    time.sleep(7)
     st.title("Chat with a bot")
     # Display Streamlit content
     # Replace the Gradio interface URL with your generated share link
-    gradio_interface_url = "http://127.0.0.1:7860"  # Example URL
+    
+    with open('count.txt','r') as f:
+        count=f.read()
+    
+    gradio_interface_url = "http://127.0.0.1:786"+count  # Example URL
 
     # Load the Gradio interface using an iframe
     st.write(f'<iframe src="{gradio_interface_url}" width="720" height="1080"></iframe>',

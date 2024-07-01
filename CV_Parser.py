@@ -21,7 +21,7 @@ def profile_summary(cv):
         messages=[
             {
                 "role": "user",
-                "content": "Summarize this person's cv and highlight the key informations: "+text,
+                "content": "Please summarize this person's CV focusing on the key points such as education, work experience, relevant skills, etc, as if an HR is taking a look at the CV: "+text,
             }
         ],
         model="llama3-8b-8192",

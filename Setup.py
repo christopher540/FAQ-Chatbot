@@ -15,9 +15,6 @@ cursor=mydb.cursor()
 def addInfo(a,b,c,d):
 
     cursor.execute("INSERT INTO USER VALUES (%s,%s,%s,%s)",(a,b,c,d))
-    
-    
-    
     mydb.commit()
     st.success("User has been added to the database")
 
