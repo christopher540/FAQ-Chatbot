@@ -4,9 +4,8 @@ from groq import Groq
 
 # creating a pdf reader object
 
-def profile_summary():
-    CV='CV_ELEAZAR Christopher Otniel V2.pdf'
-    reader = PdfReader(CV) 
+def profile_summary(cv):
+    reader = PdfReader(cv) 
 
     # getting a specific page from the pdf file 
     page = reader.pages[0] 
@@ -22,7 +21,7 @@ def profile_summary():
         messages=[
             {
                 "role": "user",
-                "content": "Summarize this text in one paragraph: "+text,
+                "content": "Please summarize this person's CV focusing on the key points such as education, work experience, relevant skills, etc, as if an HR is taking a look at the CV: "+text,
             }
         ],
         model="llama3-8b-8192",
